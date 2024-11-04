@@ -1,0 +1,103 @@
+<!--
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Age Calculator</title>
+    <link rel="stylesheet" href="/css/style.css"> &lt;!&ndash; Custom CSS &ndash;&gt;
+</head>
+<body>
+<div class="container">
+    <h2>Age</h2>
+    <form action="/calculate" method="post">
+        <label>Date of Birth</label>
+        <input type="date" name="birthDate" th:value="${birthDate}" required>
+
+        <label>Today</label>
+        <input type="date" name="todayDate" th:value="${todayDate}" required>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <div th:if="${years}">
+        <div class="results">
+            <div>
+                <h3>Age</h3>
+                <p th:text="${years} + ' years'"></p>
+                <p th:text="${months} + ' months | ' + ${days} + ' days'"></p>
+            </div>
+            <div>
+                <h3>Next Birthday</h3>
+                <p th:text="${nextBirthdayDay}"></p>
+                <p th:text="${monthsUntilNext} + ' months | ' + ${daysUntilNext} + ' days'"></p>
+            </div>
+        </div>
+        <div class="summary">
+            <h3>Summary</h3>
+            <div class="summary-row">
+                <p class="summary-item" th:text="'Years: ' + ${years}"></p>
+                <p class="summary-item" th:text="'Months: ' + (${years} * 12 + ${months})"></p>
+                <p class="summary-item" th:text="'Weeks: ' + ${totalWeeks}"></p>
+            </div>
+            <div class="summary-row">
+                <p class="summary-item" th:text="'Days: ' + ${totalDays}"></p>
+                <p class="summary-item" th:text="'Hours: ' + ${totalHours}"></p>
+                <p class="summary-item" th:text="'Minutes: ' + ${totalMinutes}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Age Calculator</title>
+    <style>
+        /* Add CSS for styling */
+        body { font-family: Arial, sans-serif; color: #f78f1e; background-color: #000; }
+        .container { text-align: center; margin-top: 50px; color: white; }
+        .summary-box { background-color: #1c1c1c; padding: 20px; border-radius: 15px; display: inline-block; width: 300px; }
+        .age { font-size: 48px; color: #f78f1e; }
+        .error { color: #ff4d4d; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Age Calculator</h1>
+
+    <form th:action="@{/calculate}" method="post">
+        <label>Date of birth</label>
+        <input type="date" name="birthDate" th:value="${birthDate}" required><br>
+        <label>Today</label>
+        <input type="date" name="todayDate" th:value="${todayDate}" required><br>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <!-- Error message if birth date is greater than today -->
+    <p class="error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+    <div class="summary-box" th:if="${years}">
+        <div class="age">
+            Age: <span th:text="${years}">21</span> years
+        </div>
+        <p>Months: <span th:text="${months}">0</span> | Days: <span th:text="${days}">0</span></p>
+        <p>Next birthday: <span th:text="${nextBirthdayDay}">Sunday</span></p>
+        <h3>Summary</h3>
+        <p>Years: <span th:text="${years}"></span></p>
+        <p>Months: <span th:text="${months}"></span></p>
+        <p>Days: <span th:text="${totalDays}"></span></p>
+        <p>Hours: <span th:text="${totalHours}"></span></p>
+        <p>Minutes: <span th:text="${totalMinutes}"></span></p>
+
+        <!-- New Button to Wish Friend on Birthday -->
+        <form th:action="@{/form}" method="get" style="display: inline;">
+            <button type="submit" class="button">Wish Your Friend on Birthday</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
